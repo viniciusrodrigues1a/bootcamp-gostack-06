@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-  Primeiro projeto com ReactJS
+  Primeiro projeto com ReactNative
 </h3>
 
 <p align="center"> Projeto desenvolvido na fase 03 do <a href="https://rocketseat.com.br/bootcamp">Bootcamp GoStack</a> 🎓</p>
