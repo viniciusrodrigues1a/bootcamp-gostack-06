@@ -24,26 +24,54 @@ export default class User extends Component {
 
   state = {
     starredRepos: [],
+    page: 1,
     loading: false,
+    refreshing: false,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.apiCall();
+  }
+
+  apiCall = async () => {
+    const { page, starredRepos } = this.state;
     const { navigation } = this.props;
     const user = navigation.getParam('user');
 
-    this.setState({ loading: true });
+    this.setState({ loading: page === 1 });
 
-    const response = await api.get(`/users/${user.login}/starred`);
+    console.tron.log(`calling git api page = ${page}`);
+
+    const response = await api.get(`/users/${user.login}/starred`, {
+      params: {
+        page,
+      },
+    });
 
     this.setState({
-      starredRepos: response.data,
+      starredRepos: [...starredRepos, ...response.data],
       loading: false,
+      page: page + 1,
     });
-  }
+
+    return response;
+  };
+
+  refreshStarredRepos = async () => {
+    await this.setState({
+      refreshing: true,
+      starredRepos: [],
+      page: 1,
+    });
+
+    await this.apiCall();
+
+    this.setState({ refreshing: false });
+  };
 
   render() {
     const { navigation } = this.props;
-    const { starredRepos, loading } = this.state;
+    const { starredRepos, loading, refreshing } = this.state;
     const user = navigation.getParam('user');
 
     return (
@@ -57,19 +85,25 @@ export default class User extends Component {
         {loading ? (
           <Loading />
         ) : (
-          <StarredRepos
-            data={starredRepos}
-            keyExtractor={star => String(star.id)}
-            renderItem={({ item }) => (
-              <Starred>
-                <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
-                <Info>
-                  <Title>{item.name}</Title>
-                  <Author>{item.owner.login}</Author>
-                </Info>
-              </Starred>
-            )}
-          />
+          <>
+            <StarredRepos
+              data={starredRepos}
+              keyExtractor={star => String(star.id)}
+              onEndReachedThreshold={0.2}
+              onEndReached={this.apiCall}
+              onRefresh={this.refreshStarredRepos}
+              refreshing={refreshing}
+              renderItem={({ item }) => (
+                <Starred>
+                  <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
+                  <Info>
+                    <Title>{item.name}</Title>
+                    <Author>{item.owner.login}</Author>
+                  </Info>
+                </Starred>
+              )}
+            />
+          </>
         )}
       </Container>
     );
