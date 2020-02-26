@@ -88,7 +88,7 @@ export default class Main extends Component {
           />
           <SubmitButton onPress={this.handleAddUser} loading={loading}>
             {loading ? (
-              <ActivityIndicator color="#fff" size={20} />
+              <ActivityIndicator color="#fff" />
             ) : (
               <Icon name="add" size={20} color="#fff" />
             )}
