@@ -40,8 +40,6 @@ export default class User extends Component {
 
     this.setState({ loading: page === 1 });
 
-    console.tron.log(`calling git api page = ${page}`);
-
     const response = await api.get(`/users/${user.login}/starred`, {
       params: {
         page,
@@ -69,6 +67,15 @@ export default class User extends Component {
     this.setState({ refreshing: false });
   };
 
+  handleNavigation = item => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Repository', {
+      repoURL: item.html_url,
+      repoName: item.name,
+    });
+  };
+
   render() {
     const { navigation } = this.props;
     const { starredRepos, loading, refreshing } = this.state;
@@ -94,7 +101,7 @@ export default class User extends Component {
               onRefresh={this.refreshStarredRepos}
               refreshing={refreshing}
               renderItem={({ item }) => (
-                <Starred>
+                <Starred onPress={() => this.handleNavigation(item)}>
                   <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
                   <Info>
                     <Title>{item.name}</Title>
@@ -112,6 +119,7 @@ export default class User extends Component {
 
 User.propTypes = {
   navigation: PropTypes.shape({
+    navigate: PropTypes.func,
     getParam: PropTypes.func,
   }).isRequired,
 };
