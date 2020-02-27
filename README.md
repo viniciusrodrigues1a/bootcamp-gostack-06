@@ -17,7 +17,7 @@
 
 ## 🧐 Sobre <a name = "about"></a>
 
-?
+Aplicativo que consome a API do GitHub para listar repositórios marcados com uma Star por um usuário.
 
 ## 🏁 Primeiros passos <a name = "getting_started"></a>
 
