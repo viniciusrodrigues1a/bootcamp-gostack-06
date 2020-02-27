@@ -13,7 +13,7 @@ export default class Repository extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    const repoURL = navigation.getParam('repoUrl');
+    const repoURL = navigation.getParam('repoURL');
     this.setState({ repoURL });
   }
 
