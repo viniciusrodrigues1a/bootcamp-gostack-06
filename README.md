@@ -47,7 +47,7 @@ react-native start
 
 ## ⛏️ Feito com <a name = "built_using"></a>
 
-- [ReactJS](https://reactjs.org/)
+- [ReactNative](https://reactnative.dev/)
 
 ## :memo: Licença <a name = "license"></a>
 
