@@ -35,11 +35,21 @@ Instalar as dependências
 yarn install
 ```
 
+### Rodando a aplicação:
+
+#### Android:
+
 ```sh
 react-native run-android
 ```
 
-### Rodando a aplicação:
+#### iOS:
+
+```sh
+react-native run-ios
+```
+
+#### Iniciando o app:
 
 ```sh
 react-native start
